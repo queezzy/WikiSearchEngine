@@ -34,7 +34,7 @@ sourceVector = [1.0/len(allPages)] * len(allPages)
 delta = float("inf")
 
 while delta > 0.0000001:
-	print(delta, sum(pageRanks),len(pageRanks))
+	print("Convergence delta:",delta,sum(pageRanks),len(pageRanks))
 	pageRanksNew = surfStep(pageRanks, linksIdx)
 	jumpProba = sum(pageRanks) - sum(pageRanksNew)
 	if jumpProba < 0:
