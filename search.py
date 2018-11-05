@@ -72,7 +72,7 @@ bestPages = list(reversed([ docList[i] for i in numpy.argsort(searchRes)[-10:] ]
 
 ranks = [ pageRankDict.get(page,0) for page in bestPages ]
 rankedResults = list(reversed([ bestPages[i] for i in numpy.argsort(ranks) ]))
-for page in enumerate(rankedResults):
+for idx,page in enumerate(rankedResults):
 	print(str(idx) + ". " + page)
 
 
