@@ -22,15 +22,13 @@ def getPages(category):
 	j = json.loads(jsonContent)["query"]["categorymembers"]
 	return j
 
-j = getPages(categoryToCrawl)
-realPages = list()
+pagesToDw = getPages(categoryToCrawl)
 for depth in range(crawlingDepth):
-	toGet = list()
-	for k in j:
-		page = k["title"]
+	deeperLevelPages = list()
+	for page in pagesToDw:
+		pageTitle = page["title"]
 		if page.startswith("Category:"):
-			toGet+=getPages(page)
-		realPages += [k["title"]]
-		print(k["title"])
-	j = toGet
+			deeperLevelPages += getPages(pageTitle)
+		print(pageTitle)
+	pagesToDw = deeperLevelPages
 

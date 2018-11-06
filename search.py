@@ -2,7 +2,7 @@ from itertools import chain
 import numpy
 import pickle
 import sys
-
+import copy
 
 with open("tokdoc.dict",'rb') as f:
 	tokdoc = pickle.load(f)
@@ -40,9 +40,9 @@ for tok in tokdoc:
 		tfidf[doc][tok] = tf[doc].get(tok,0)*tokInfo[tok]
 
 
-tfidfNorm = dict(tfidf)
+tfidfNorm = copy.deepcopy(tfidf)
 for doc in tfidf:
-	norm = sum(tfidf[doc].values())
+	norm = numpy.sqrt(sum([val*val for val in tfidf[doc].values()]))
 	for tok in tfidf[doc]:
 		tfidfNorm[doc][tok] = tfidf[doc][tok]/norm
 
@@ -58,27 +58,46 @@ def scalNorm(query,doc,tfidf):
 		s += tfidfNorm[doc].get(tok,0)*tokInfo[tok]
 	return s
 
+# Ranked by token relevance (vector model)
+def getBestResultsNormed(queryStr, topN):
+	query = queryStr.split(" ")
+	searchRes = list(map(lambda d:scalNorm(query,d,tfidf),docList))
+	bestPages = list(reversed([ docList[i] for i in numpy.argsort(searchRes)[-topN:] ]))
+	return bestPages
 
 
-queryStr = sys.argv[1]
-query = queryStr.split(" ")
-searchRes = list(map(lambda d:scalNorm(query,d,tfidf),docList))
+# Ranked by token relevance (vector model)
+def getBestResults(queryStr, topN):
+	query = queryStr.split(" ")
+	searchRes = list(map(lambda d:scal(query,d,tfidf),docList))
+	bestPages = list(reversed([ docList[i] for i in numpy.argsort(searchRes)[-topN:] ]))
+	return bestPages
+
+def rankResults(results):
+	ranks = [ pageRankDict.get(page,0) for page in results ]
+	rankedResults = list(reversed([ results[i] for i in numpy.argsort(ranks) ]))
+	return rankedResults
 
 
+def printResults(rankedResults):
+	for idx,page in enumerate(rankedResults):
+		print(str(idx) + ". " + page)
 
 
-
-bestPages = list(reversed([ docList[i] for i in numpy.argsort(searchRes)[-10:] ]))
-
-ranks = [ pageRankDict.get(page,0) for page in bestPages ]
-rankedResults = list(reversed([ bestPages[i] for i in numpy.argsort(ranks) ]))
-for idx,page in enumerate(rankedResults):
-	print(str(idx) + ". " + page)
+#queryStr = sys.argv[1]
+query = "evolution of bacteria"
+top = 15
+results = getBestResults(query,top)
+printResults(results)
 
 
+results = getBestResultsNormed(query,top)
+printResults(results)
 
+rankedResults = rankResults(results)
+printResults(rankedResults)
 
-bestPageSimilarity = list(reversed([ searchRes[i] for i in numpy.argsort(searchRes)[-10:] ]))
+#bestPageSimilarity = list(reversed([ searchRes[i] for i in numpy.argsort(searchRes)[-10:] ]))
 #bestPageSimilarity
 
 

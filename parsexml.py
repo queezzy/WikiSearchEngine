@@ -10,8 +10,9 @@ print("Files as input:", xmlFiles)
 
 docs = dict()
 
-
+##############################
 print("Parsing XML...")
+##############################
 for xmlFile in xmlFiles:
 	pages = xml.etree.ElementTree.parse(xmlFile).getroot()
 
@@ -52,6 +53,7 @@ for idx,doc in enumerate(docs):
 	docs[doc] = re.sub(removeLinkRe,r"\1",docs[doc])
 	docs[doc] = re.sub(removeLink2Re,r"\1",docs[doc])
 	
+	# fill the tokdoc matrix
 	for wordre in re.finditer(wordRe,docs[doc]):
 		word = wordre.group(0).lower()
 		if word not in stopWords:
