@@ -87,7 +87,7 @@ After checking (quickly) the code, you should be able to answer the following qu
 
 
 
-When setting \texttt{crawlingDepth = 1}, we get $2\,096$ pages, and when setting it to \texttt{crawlingDepth = 4}, we got $69\,867$ pages. This will provide you two datasets, the first one for debug purposes, and the last one for final testing.
+When setting \texttt{crawlingDepth = 1}, we get $2\,096$ pages (when setting it to \texttt{crawlingDepth = 4}, we got $69\,867$ pages, the corresponding files have already been pre-processed and can be found in the \url{/matieres} directory). This will provide you two datasets, use the small one throughout this tutorial and the bigger one for testing or optimizing your final solutions.
 
 \section{Downloading the data}
 
@@ -103,18 +103,21 @@ By looking in the script, can you tell:
 
 \section{Parsing the data}
 
+A parser of the Wikipedia documents has been developed in the \texttt{parsexml.py} that create a \textit{tokdoc} matrix as well as a \textit{jump} matrix for the \textit{random surfer model}.
 
 
-A parser of the Wikipedia documents has been developed in the \texttt{parsexml.py} that create a \textit{tokdoc} matrix as well as a jump matrix for the random surfer model.
-
-TODO detail what is a group
 
 
 \begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
 	\item From the code, how are encoded the two matrices (\textit{i.e.} what type of Python object)? What is the name of this encoding?
-	\item Take a look at the content of a Wikipedia page in the \texttt{dws} folder, for example using the command \texttt{vi} or \texttt{less}. How are the links encoded in the wiki language?
+	\item Take a look at the database of Wikipedia documents in the \texttt{dws} folder, for example using the command \texttt{vi} or \texttt{less}. How are the links encoded in the wiki language?
 	\item The regular expression for extracting the links has been removed. Propose a regular expression to detect the links in the Wikipedia format.
-	\item Implement your regular expression in Python such that the first group contains the link description.
+	\item Implement your regular expression in Python such that the first group contains the link description
+	\footnote{Here are some examples: \begin{itemize}
+		\item \texttt{"([\^{}a]+)"} will match any word having \textbf{no} \texttt{a}
+		\item When parsing \texttt{Hello Bob!}, the pattern \texttt{"Hello ([\^{}a]+)!"} will extract \texttt{Bob} in the first group 
+		\item Mind the necessity of \textit{escaping }characters: \texttt{"(\textbackslash [+)"} is the pattern to match any series of \texttt{[} character like \texttt{[[[[}
+	\end{itemize} See \url{https://docs.python.org/3/howto/regex.html} for a description of the syntax.}.
 \end{enumerate}
 
 
