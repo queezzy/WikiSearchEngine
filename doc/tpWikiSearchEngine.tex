@@ -42,7 +42,8 @@
 
 %opening
 %\institute[MPI]{MPI \and SoedingLab}
-\title{Mini Wiki Search Engine}
+\title{Tutorial: Mini Wiki Search Engine}
+\author{Clovis Galiez}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \begin{document}
 
@@ -102,20 +103,16 @@ By looking in the script, can you tell:
 
 \section{Parsing the data}
 
-Take a look at the files containing the Wikipedia pages in the directory \texttt{dws}.
 
-\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
-	\item Give a regular expression to extract all the titles of pages encoded in this file.
-\end{enumerate}
 
 A parser of the Wikipedia documents has been developed in the \texttt{parsexml.py} that create a \textit{tokdoc} matrix as well as a jump matrix for the random surfer model.
 
 TODO detail what is a group
-TODO remove reg ex for links
+
 
 \begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
 	\item From the code, how are encoded the two matrices (\textit{i.e.} what type of Python object)? What is the name of this encoding?
-	\item Take a look at the content of a Wikipedia page in the \texttt{dws} folder. How are the links encoded in the wiki language?
+	\item Take a look at the content of a Wikipedia page in the \texttt{dws} folder, for example using the command \texttt{vi} or \texttt{less}. How are the links encoded in the wiki language?
 	\item The regular expression for extracting the links has been removed. Propose a regular expression to detect the links in the Wikipedia format.
 	\item Implement your regular expression in Python such that the first group contains the link description.
 \end{enumerate}
@@ -134,8 +131,7 @@ TODO remove reg ex for links
 \section{Search!}
 
 
-TODO make the search in non-normed mode.
-
+Take a look at the file \texttt{search.py} and change the \texttt{CHANGE\_ME} statements to their right formula in order to get a correct TF-IDF matrix using a \textit{sparse }representation.
 
 If you run in interactive mode the \texttt{search.py}, get the best 15 results by the vector model for the query \textit{theory of evolution}.
 
