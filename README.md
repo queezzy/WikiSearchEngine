@@ -6,30 +6,5 @@ Author: Clovis Galiez, 2018.
 
 License GNU/GPL. 
 
-
-# Crawl a wikipedia category
-
-`python3 crawl.py > listPages.lst`
-
-# Download the XML of the pages
-
-`./dw.sh listPages.lst`
-
-This will fetch pages from the API https://en.wikipedia.org/wiki/Special:Export to teh directory dws
-
-# Parse the XML pages (extract links and tokens)
-
-`python3 parsexml.py dws/*`
-
-This will create dictionnaries containing the token and link information
-
-# Compute the PageRank vector from the links information
-
-`python3 pageRank.py`
-
-
-# Search :)
-
-`python3 search.py "evolution bacteria"`
-
+The subject and questions are in the PDF in the doc/ directory.
 

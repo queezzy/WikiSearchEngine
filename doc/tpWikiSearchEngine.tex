@@ -1,0 +1,164 @@
+\documentclass[mathserif, 11pt,c]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=15mm,
+ right=15mm,
+ top=20mm,
+ }
+
+
+
+\bibliographystyle{plain}
+
+
+
+
+\usepackage{url}
+
+
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+ 
+
+
+
+\usepackage{enumitem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{amsmath}
+
+\newcommand{\bigslant}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+
+
+
+\newtheorem{prop}{Proposition}[section] 
+
+%opening
+%\institute[MPI]{MPI \and SoedingLab}
+\title{Mini Wiki Search Engine}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\begin{document}
+
+\setcounter{secnumdepth}{1} 
+
+\newcommand{\normtwo}[1]{\left|\left|#1\right|\right|_2} 
+\newcommand{\normmat}[1]{\left|\left|\left|#1\right|\right|\right|} 
+\newcommand{\n}[1]{\lVert #1 \rVert} 
+\newcommand{\myd}[2]{ 2\log{\dfrac{\n{#1}.\n{#2}}{#1\cdot #2}}}
+
+\maketitle
+
+
+We propose here to develop a mini search engine to mine documents from a wikimedia source. A skeleton of the program is provided, and we guide you in the completion of this program to achieve a search engine implementing the standard techniques of Information Retrieval.
+
+
+\section{Setting up your environment}
+
+Get the Git repository from the following URL: \url{https://github.com/ClovisG/WikiSearchEngine} by running the following:
+
+\texttt{git clone https://github.com/ClovisG/WikiSearchEngine.git}
+
+
+
+
+\section{Crawling the data}
+
+
+
+This section describe how the data has been collected. No coding is asked on your side.
+
+We developed a script called \texttt{crawl.py} that requests the Wikipedia API for list of pages in a given category. By looking in the script, you will discover a straightforward querying to \url{http://en.wikipedia.org/w/api.php} asking for \texttt{"categorymembers"} of a given category. You can choose to retrieve the pages in the subcategories up to a depth controled by the parameter \texttt{crawlingDepth}.
+
+
+After checking (quickly) the code, you should be able to answer the following questions:
+\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
+	\item Which Wikipedia category is crawled in this script?
+	\item What does this script output?
+	\item When running the script like \texttt{python3 crawl.py > wiki.lst}, what does the file \texttt{wiki.lst} contain?
+\end{enumerate}
+
+
+
+When setting \texttt{crawlingDepth = 1}, we get $2\,096$ pages, and when setting it to \texttt{crawlingDepth = 4}, we got $69\,867$ pages. This will provide you two datasets, the first one for debug purposes, and the last one for final testing.
+
+\section{Downloading the data}
+
+We developed a simple bash script \texttt{dw.sh} that takes the file \texttt{wiki.lst} as argument and download the related Wikipedia pages. Due to some limitation on the Wikipedia side, we chose to download the pages by batches.
+
+By looking in the script, can you tell:
+\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
+	\item How many pages per batch is downloaded?
+	\item What API of wikipedia is used to download a set of pages?
+	\item By going to the API page in your browser, can you tell in what format the pages will be encoded?
+\end{enumerate}
+
+
+\section{Parsing the data}
+
+Take a look at the files containing the Wikipedia pages in the directory \texttt{dws}.
+
+\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
+	\item Give a regular expression to extract all the titles of pages encoded in this file.
+\end{enumerate}
+
+A parser of the Wikipedia documents has been developed in the \texttt{parsexml.py} that create a \textit{tokdoc} matrix as well as a jump matrix for the random surfer model.
+
+TODO detail what is a group
+TODO remove reg ex for links
+
+\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
+	\item From the code, how are encoded the two matrices (\textit{i.e.} what type of Python object)? What is the name of this encoding?
+	\item Take a look at the content of a Wikipedia page in the \texttt{dws} folder. How are the links encoded in the wiki language?
+	\item The regular expression for extracting the links has been removed. Propose a regular expression to detect the links in the Wikipedia format.
+	\item Implement your regular expression in Python such that the first group contains the link description.
+\end{enumerate}
+
+
+\section{PageRank of the documents}
+
+\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
+	\item Run the PageRank program in interactive mode: \texttt{python3 -i pageRank.py}, and use the Python interface to answer the following:
+	\begin{itemize}
+		\item What is the page rank of "Charles Darwin"?
+		\item What is the page with the highest rank?
+	\end{itemize}
+\end{enumerate}
+
+\section{Search!}
+
+
+TODO make the search in non-normed mode.
+
+
+If you run in interactive mode the \texttt{search.py}, get the best 15 results by the vector model for the query \textit{theory of evolution}.
+
+\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
+	\item What type of page is selected by the vector model? By looking at the Wikipedia page, how can you explain it? What is the name of this classical \textit{cheating}?
+	\item Propose and implement a way of correcting this phenomenon. Check if this correct the effect for the top 15 pages.
+	\item Rank the results according to pageRank (using the \texttt{rankResults} function), and print them using the \texttt{printResults} function. Does it look nice?
+	\item Take a look at vector model rankings for the query \textit{evolution of bacteria}. What is the rank of the page \textit{"Bacterial evolution"}? Rank the results by pageRank. What is the rank of the page \textit{"Bacterial evolution"}? Is it expected? How would you correct for it?
+\end{enumerate}
+
+
+\section{Extras}
+
+You can tune the page source in the Random Surfer Model to put more emphasis on the source vector, as well as modifying the source vector itself.
+Note that handling this properly is a bit counterintuitive.
+
+\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
+	\item What is the page rank of the page "DNA"? What is the page rank of the page "RNA"?
+	\item For example, set the source vector as the pages with DNA in the title. What is the page rank of "DNA" and "RNA"? How can you explain this? How should you modify the source vector in order to increase the "DNA" page rank?
+\end{enumerate}
+	
+
+%\bibliography{bib}
+
+
+\end{document}
