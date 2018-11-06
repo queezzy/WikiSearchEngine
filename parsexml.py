@@ -29,7 +29,7 @@ for xmlFile in xmlFiles:
 
 
 # Some regEx
-linkRe = "\[\[([^\]]+)\]\]"
+linkRe = # TO IMPLEMENT
 removeLinkRe = "\[\[[^\]]+\|([^\|\]]+)\]\]"
 removeLink2Re =  "\[\[([^\|\]]+)\]\]"
 wordRe = "[a-zA-Z\-]+"
