@@ -42,7 +42,8 @@
 
 %opening
 %\institute[MPI]{MPI \and SoedingLab}
-\title{Tutorial: Mini Wiki Search Engine}
+\title{Woogle: Mini Wiki Search Engine\\
+\Large Hands-on session for the Information Retrieval lecture}
 \author{Clovis Galiez}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \begin{document}
@@ -73,37 +74,40 @@ Get the Git repository from the following URL: \url{https://github.com/ClovisG/W
 
 
 
-This section describe how the data has been collected. No coding is asked on your side.
+This section describes how the data has been collected. No coding is asked on your side.
 
-We developed a script called \texttt{crawl.py} that requests the Wikipedia API for list of pages in a given category. By looking in the script, you will discover a straightforward querying to \url{http://en.wikipedia.org/w/api.php} asking for \texttt{"categorymembers"} of a given category. You can choose to retrieve the pages in the subcategories up to a depth controled by the parameter \texttt{crawlingDepth}.
+We developed the script \texttt{crawl.py} that requests the Wikipedia API for list of pages in a given category. By looking in the script, you will discover a straightforward querying to \url{http://en.wikipedia.org/w/api.php} asking for \texttt{"categorymembers"} of a given category. You can choose to retrieve the pages in the subcategories up to a depth controled by the parameter \texttt{crawlingDepth}.
 
 
 After checking (quickly) the code, you should be able to answer the following questions:
 \begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
 	\item Which Wikipedia category is crawled in this script?
 	\item What does this script output?
-	\item When running the script like \texttt{python3 crawl.py > wiki.lst}, what does the file \texttt{wiki.lst} contain?
+	\item When running the script like \texttt{python3 crawl.py > wiki.lst}, what should the file \texttt{wiki.lst} contain?
 \end{enumerate}
 
 
 
-When setting \texttt{crawlingDepth = 1}, we get $2\,096$ pages (when setting it to \texttt{crawlingDepth = 4}, we got $69\,867$ pages, the corresponding files have already been pre-processed and can be found in the \url{/matieres} directory). This will provide you two datasets, use the small one throughout this tutorial and the bigger one for testing or optimizing your final solutions.
+When setting \texttt{crawlingDepth = 1}, we get $2\,096$ pages which is enough for the purpose of this hands-on session\footnote{When setting \texttt{crawlingDepth = 4}, we got $69\,867$ pages. The documents have already been pre-processed and the results can be found in the \url{/matieres} directory, which you can use in case time allows for testing or optimizing your final solutions.}.
 
 \section{Downloading the data}
 
-We developed a simple bash script \texttt{dw.sh} that takes the file \texttt{wiki.lst} as argument and download the related Wikipedia pages. Due to some limitation on the Wikipedia side, we chose to download the pages by batches.
+We developed a simple bash script \texttt{dw.sh} that takes the file \texttt{wiki.lst} as argument and download the related Wikipedia pages. Due to some limitation on the Wikipedia side, we had to download the pages by batches.
 
-By looking in the script, can you tell:
+By looking in the \texttt{dw.sh} script, can you tell:
 \begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
 	\item How many pages per batch is downloaded?
 	\item What API of wikipedia is used to download a set of pages?
-	\item By going to the API page in your browser, can you tell in what format the pages will be encoded?
+	\item By going to the API page in your browser, and reading the documentation paragraph, can you tell in what format the pages will be encoded?
 \end{enumerate}
 
 
 \section{Parsing the data}
 
-A parser of the Wikipedia documents has been developed in the \texttt{parsexml.py} that create a \textit{tokdoc} matrix as well as a \textit{jump} matrix for the \textit{random surfer model}.
+\textbf{From now on, the scripts are only partial, you will have to complete them up.}
+
+
+A parser of the Wikipedia documents has been developed in the \texttt{parsexml.py} that creates a \textit{tokdoc} matrix as well as a \textit{jump} matrix for the \textit{random surfer model}.
 
 
 
@@ -112,8 +116,7 @@ A parser of the Wikipedia documents has been developed in the \texttt{parsexml.p
 	\item From the code, how are encoded the two matrices (\textit{i.e.} what type of Python object)? What is the name of this encoding?
 	\item Take a look at the database of Wikipedia documents in the \texttt{dws} folder, for example using the command \texttt{vi} or \texttt{less}. How are the links encoded in the wiki language?
 	\item The regular expression for extracting the links has been removed. Propose a regular expression to detect the links in the Wikipedia format.
-	\item Implement your regular expression in Python such that the first group contains the link description
-	\footnote{Here are some examples: \begin{itemize}
+	\item Implement your regular expression in Python such that the first group contains the link description\footnote{Here are some examples: \begin{itemize}
 		\item \texttt{"([\^{}a]+)"} will match any word having \textbf{no} \texttt{a}
 		\item When parsing \texttt{Hello Bob!}, the pattern \texttt{"Hello ([\^{}a]+)!"} will extract \texttt{Bob} in the first group 
 		\item Mind the necessity of \textit{escaping }characters: \texttt{"(\textbackslash [+)"} is the pattern to match any series of \texttt{[} character like \texttt{[[[[}
@@ -123,15 +126,22 @@ A parser of the Wikipedia documents has been developed in the \texttt{parsexml.p
 
 \section{PageRank of the documents}
 
+The PageRank algorithm is implemented in the \texttt{pageRank.py} script.
+
+
 \begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
-	\item Run the PageRank program in interactive mode: \texttt{python3 -i pageRank.py}, and use the Python interface to answer the following:
+	\item In the \textit{random surfer model}, at each iteration, random clicks are "simulated" with a given probability. Complete the code with the correct probability.
+	\item What is the name of the effect we circumvent by adding \texttt{sourceVector} to the newly computed page rank vector \texttt{pageRanksNew}?
+	\item Implement the formula of the convergence $\delta$.
+	\item Run the PageRank program in interactive mode\footnote{Interactive mode means that Python will runthe script and give you a shell afterwards to type in any code, allowin to use the functions and variables computed in the script. Syntax: \texttt{python3 -i yourScript.py}} \texttt{python3 -i pageRank.py}, and use the Python interface to answer the following:
 	\begin{itemize}
+		\item How many iteration did it need to converge?
 		\item What is the page rank of "Charles Darwin"?
 		\item What is the page with the highest rank?
 	\end{itemize}
 \end{enumerate}
 
-\section{Search!}
+\section{Woogle!}
 
 
 Take a look at the file \texttt{search.py} and change the \texttt{CHANGE\_ME} statements to their right formula in order to get a correct TF-IDF matrix using a \textit{sparse }representation.
@@ -152,8 +162,8 @@ You can tune the page source in the Random Surfer Model to put more emphasis on 
 Note that handling this properly is a bit counterintuitive.
 
 \begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
-	\item What is the page rank of the page "DNA"? What is the page rank of the page "RNA"?
-	\item For example, set the source vector as the pages with DNA in the title. What is the page rank of "DNA" and "RNA"? How can you explain this? How should you modify the source vector in order to increase the "DNA" page rank?
+	\item Without changing anything, note down the page ranks of "DNA" and "RNA".
+	\item For example, set the source vector as the pages with DNA in the title and re-compute the page rank vector. What is the new page rank of "DNA" and "RNA"? How can you explain this? How should you modify the source vector in order to increase the "DNA" page rank?
 \end{enumerate}
 	
 
