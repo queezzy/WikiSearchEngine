@@ -152,20 +152,34 @@ If you run in interactive mode the \texttt{search.py}, get the best 15 results b
 	\item What type of page is selected by the vector model? By looking at the Wikipedia page, how can you explain it? What is the name of this classical \textit{cheating}?
 	\item Propose and implement a way of correcting this phenomenon. Check if this correct the effect for the top 15 pages.
 	\item Rank the results according to pageRank (using the \texttt{rankResults} function), and print them using the \texttt{printResults} function. Does it look nice?
-	\item Take a look at vector model rankings for the query \textit{evolution of bacteria}. What is the rank of the page \textit{"Bacterial evolution"}? Rank the results by pageRank. What is the rank of the page \textit{"Bacterial evolution"}? Is it expected? How would you correct for it?
+	\item Take a look at vector model rankings for the query \textit{evolution of bacteria}. What is the rank of the page \textit{"Bacterial evolution"}? Rank the results by pageRank. What is the rank of the page \textit{"Bacterial evolution"}? Is it expected? How would you correct for it\footnote{We shall see this point in the next lecture :)}?
 \end{enumerate}
 
 
 \section{Extras}
 
+\subsection{Effect of the source vector}
 You can tune the page source in the Random Surfer Model to put more emphasis on the source vector, as well as modifying the source vector itself.
 Note that handling this properly is a bit counterintuitive.
+
 
 \begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
 	\item Without changing anything, note down the page ranks of "DNA" and "RNA".
 	\item For example, set the source vector as the pages with DNA in the title and re-compute the page rank vector. What is the new page rank of "DNA" and "RNA"? How can you explain this? How should you modify the source vector in order to increase the "DNA" page rank?
 \end{enumerate}
-	
+
+\subsection{Effect of stemming}	
+
+In the current implementation the words \textit{bacteria} and \textit{bacterial} are different. 
+\begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
+	\item List some simple grammar rules for stemming in English, and implement them in the right script. Does it improve the performance of the search?
+\end{enumerate}
+
+\subsection{Latent semantics}
+
+The current version ignore synonymy. Using the sparse implementation of SVD from the \textit{scipy} module, implement a simple version of the latent semantics technique. Note that this method computes the correlation between tokens, and the quantity of documents is therefore critical to have an accurate estimation of co-occurring tokens. Implement and test your method with the current dataset, and use the bigger dataset in the end to achieve better results.
+
+
 
 %\bibliography{bib}
 
