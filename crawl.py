@@ -27,7 +27,7 @@ for depth in range(crawlingDepth):
 	deeperLevelPages = list()
 	for page in pagesToDw:
 		pageTitle = page["title"]
-		if page.startswith("Category:"):
+		if pageTitle.startswith("Category:"):
 			deeperLevelPages += getPages(pageTitle)
 		print(pageTitle)
 	pagesToDw = deeperLevelPages
