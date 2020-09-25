@@ -7,9 +7,9 @@ split $1.uniq -l 3000 --additional-suffix=.chunks
 
 mkdir dws
 
-alias urlencode='python -c "import sys, urllib as ul; \
+alias urlencode='python3 -c "import sys, urllib.parse as ul; \
  f=open(sys.argv[1]); \
- print \"\".join([ul.quote_plus(l) for l in f ])"'
+ print(\"\".join([ul.quote_plus(l) for l in f ]))"'
 
 # Download them
 for f in `ls *.chunks`; do
