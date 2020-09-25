@@ -40,7 +40,7 @@ print("Extracting links, transforming links in text, tokenizing, ans filling a t
 links = dict()
 tokdoc = dict()
 for idx,doc in enumerate(docs):
-	if idx%(len(docs)/20) == 0:
+	if idx%(len(docs)//20) == 0:
 		print("Progress " + str(idx*100/len(docs))  +"%")
 	for link in re.finditer(linkRe,docs[doc]):
 		target = link.group(1).split('|')[0]
