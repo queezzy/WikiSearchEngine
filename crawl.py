@@ -23,12 +23,14 @@ def getPages(category):
 	return j
 
 pagesToDw = getPages(categoryToCrawl)
-for depth in range(crawlingDepth):
-	deeperLevelPages = list()
-	for page in pagesToDw:
-		pageTitle = page["title"]
-		if pageTitle.startswith("Category:"):
-			deeperLevelPages += getPages(pageTitle)
-		print(pageTitle)
-	pagesToDw = deeperLevelPages
+
+with open("wiki.lst",'w') as outFile:
+	for depth in range(crawlingDepth):
+		deeperLevelPages = list()
+		for page in pagesToDw:
+			pageTitle = page["title"]
+			if pageTitle.startswith("Category:"):
+				deeperLevelPages += getPages(pageTitle)
+			outFile.write(pageTitle)
+		pagesToDw = deeperLevelPages
 
