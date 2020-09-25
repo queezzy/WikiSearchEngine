@@ -5,7 +5,7 @@ import urllib
 from urllib.parse import urlencode, quote_plus
 
 categoryToCrawl = "Category:Biology"
-crawlingDepth = 4
+crawlingDepth = 2
 
 
 def getPages(category):

@@ -67,14 +67,15 @@ Get the Git repository from the following URL: \url{https://github.com/ClovisG/W
 
 \texttt{git clone https://github.com/ClovisG/WikiSearchEngine.git}
 
+You may need the follwing Python modules: \texttt{httplib2,numpy}. To install in user mode (when you do not have root access you ca use the following command:
 
-
+\texttt{pip3 install --user numpy httplib2}
 
 \section{Crawling the data}
 
 
 
-This section describes how the data has been collected. No coding is asked on your side.
+This section describes how the data has been collected. \textbf{No coding is asked on your side.}
 
 We developed the script \texttt{crawl.py} that requests the Wikipedia API for list of pages in a given category. By looking in the script, you will discover a straightforward querying to \url{http://en.wikipedia.org/w/api.php} asking for \texttt{"categorymembers"} of a given category. You can choose to retrieve the pages in the subcategories up to a depth controled by the parameter \texttt{crawlingDepth}.
 
@@ -88,7 +89,7 @@ After checking (quickly) the code, you should be able to answer the following qu
 
 
 
-When setting \texttt{crawlingDepth = 1}, we get $2\,096$ pages which is enough for the purpose of this hands-on session\footnote{When setting \texttt{crawlingDepth = 4}, we got $69\,867$ pages. The documents have already been pre-processed and the results can be found in the \url{/matieres} directory, which you can use in case time allows for testing or optimizing your final solutions.}.
+When setting \texttt{crawlingDepth = 2}, we get about $2\,00$ pages which is enough for the purpose of this hands-on session\footnote{When setting \texttt{crawlingDepth = 4}, we got about $70\,000$ pages. The documents have already been pre-processed and the results can be found in the \url{/matieres} directory, which you can use in case time allows for testing or optimizing your final solutions.}.
 
 \section{Downloading the data}
 
@@ -172,7 +173,7 @@ Note that handling this properly is a bit counterintuitive.
 
 In the current implementation the words \textit{bacteria} and \textit{bacterial} are different. 
 \begin{enumerate}[label=\textbf{Q\thesection.\arabic*}]
-	\item List some simple grammar rules for stemming in English, and implement them in the right script. Does it improve the performance of the search?
+	\item List some simple grammar rules for stemming in English, and implement them in the right script. Does it improve the performance of the search? What if you use a standard library to do it?
 \end{enumerate}
 
 \subsection{Latent semantics}
