@@ -31,6 +31,6 @@ with open("wiki.lst",'w') as outFile:
 			pageTitle = page["title"]
 			if pageTitle.startswith("Category:"):
 				deeperLevelPages += getPages(pageTitle)
-			outFile.write(pageTitle)
+			outFile.write(pageTitle+"\n")
 		pagesToDw = deeperLevelPages
 
