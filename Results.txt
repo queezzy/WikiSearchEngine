@@ -1,0 +1,61 @@
+Q2.1 Which Wikipedia category is crawled in this script?
+
+    R2.1 The crawled category is Biology
+
+Q2.2 What does this script output?
+
+    R2.2 The script output the list of title of article related directly to the Biology category and to the articles
+    belonging to the subcategory of Biology.
+
+Q2.3 When running the script like python3 crawl.py > wiki.lst, what should the file wiki.lst contain?
+
+    R2.3 In wiki.lst we should have the list of title of article related directly to the Biology category and to the
+    articles belonging to the subcategory of Biology.
+
+Q3.1 How many pages per batch is downloaded?
+
+    R3.1 3000 pages per batch
+
+Q3.2 What API of wikipedia is used to download a set of pages?
+
+    R3.2 The endpoint used to download a set of pages is Special:Export
+
+Q4.1 From the code, how are encoded the two matrices (i.e. what type of Python object)? What is the
+name of this encoding?
+
+    R4.1 The two matrices are encoded as dictionaries python structure. The name of this type encoding is sparse encoding
+
+Q4.2 Take a look at the database of Wikipedia documents in the dws folder, for example using the command
+vi or less. How are the links encoded in the wiki language?
+
+    R4.2 The links encoded in the wiki language are of three types:
+            . ['link in full text'] : This means an external link (e.g: [https://cnn.com]
+            . [[Category:name_of_category]] : This is to encode the link to a wikipedia category
+            . [[title_of_page | default_text_to_show]] : This is a link to a wikipedia article of a specific title
+            and the pipe (|) separate the title of the document and the text we want to show to the user
+
+Q4.3 The regular expression for extracting the links has been removed. Propose a regular expression to
+detect the links in the Wikipedia format.
+
+    R4.3 linkRe = "\[\[([^\]\|]+)(\|[^\]]+)?\]\]"
+
+Q4.4 Implement your regular expression in Python such that the first group contains the link description 2 .
+
+    R4.3 linkRe = "\[\[([^\]\|]+)(\|[^\]]+)?\]\]"
+
+Q5.1 In the random surfer model, at each iteration, random clicks are ”simulated” with a given probability.
+Complete the code with the correct probability.
+
+
+Q5.2 What is the name of the effect we circumvent by adding sourceVector to the newly computed page
+rank vector pageRanksNew?
+
+Q5.3 Implement the formula of the convergence δ.
+
+
+Q5.4 Run the PageRank program in interactive mode 3 python3 -i pageRank.py, and use the Python
+interface to answer the following:
+
+    . How many iteration did it need to converge?
+    . What is the page rank of ”Charles Darwin”?
+    . What is the page with the highest rank?
