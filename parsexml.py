@@ -5,6 +5,10 @@ import pickle
 import glob
 from itertools import chain
 
+# Check if we set the argument or not. Then we affect a default value
+if len(sys.argv[1:]) == 0:
+	sys.argv.append("dws/*")
+
 xmlFiles = list(chain(*[ glob.glob(globName)  for globName in sys.argv[1:] ]))
 print("Files as input:", xmlFiles)
 
@@ -29,7 +33,7 @@ for xmlFile in xmlFiles:
 
 
 # Some regEx
-linkRe = # TO IMPLEMENT
+linkRe = "\[\[([^\]\|]+)(\|[^\]]+)?\]\]"
 removeLinkRe = "\[\[[^\]]+\|([^\|\]]+)\]\]"
 removeLink2Re =  "\[\[([^\|\]]+)\]\]"
 wordRe = "[a-zA-Z\-]+"

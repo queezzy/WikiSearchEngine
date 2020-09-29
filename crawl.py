@@ -24,7 +24,7 @@ def getPages(category):
 
 pagesToDw = getPages(categoryToCrawl)
 
-with open("wiki.lst",'w') as outFile:
+with open("wiki.lst",'w',encoding="utf-8") as outFile:
 	for depth in range(crawlingDepth):
 		deeperLevelPages = list()
 		for page in pagesToDw:
