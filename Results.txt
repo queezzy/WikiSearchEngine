@@ -20,6 +20,8 @@ Q3.2 What API of wikipedia is used to download a set of pages?
 
     R3.2 The endpoint used to download a set of pages is Special:Export
 
+Q3.3 By going to the API page in your browser, and reading the documentation paragraph, can you tell inwhat format the pages will be encoded
+    R3.3 Pages will be encoded in XML
 Q4.1 From the code, how are encoded the two matrices (i.e. what type of Python object)? What is the
 name of this encoding?
 
@@ -41,7 +43,7 @@ detect the links in the Wikipedia format.
 
 Q4.4 Implement your regular expression in Python such that the first group contains the link description 2 .
 
-    R4.3 linkRe = "\[\[([^\]\|]+)(\|[^\]]+)?\]\]"
+    R4.4 linkRe = "\[\[([^\]\|]+)(\|[^\]]+)?\]\]"
 
 Q5.1 In the random surfer model, at each iteration, random clicks are ”simulated” with a given probability.
 Complete the code with the correct probability.
@@ -57,5 +59,55 @@ Q5.4 Run the PageRank program in interactive mode 3 python3 -i pageRank.py, and 
 interface to answer the following:
 
     . How many iteration did it need to converge?
+        R5.4.1 It needed 97 iterations to converge
+
     . What is the page rank of ”Charles Darwin”?
+        R5.4.2 Document entitled "Charles Darwin" is not in our corpus (Maybe because at the moment when we crawled 
+        the wikipedia API, it was no more present)
+
     . What is the page with the highest rank?
+        R5.4.3 The page with the highest rank is Biotechnology
+
+Q6.1 What type of page is selected by the vector model? By looking at the Wikipedia page, how can you
+explain it? What is the name of this classical cheating?
+    
+    R6.1 The type of pages selected are mostly category pages wich have a lot of informative terms relatively to our query.
+    This type of cheating is called content farms. Meaning a page with a lot of informative terms at the same time in its content.
+
+
+Q6.2 Propose and implement a way of correcting this phenomenon. Check if this correct the effect for the
+top 15 pages.
+    
+    R6.2 To correct this phenomenon, we can scale the dot product by the norm of the document vector. When we do it, we can
+    figure out that we have much less category type pages than before. You can see it on the execution output  posted below
+
+Q6.3 Rank the results according to pageRank (using the rankResults function), and print them using the
+printResults function. Does it look nice?
+
+Q6.4 Take a look at vector model rankings for the query evolution of bacteria. What is the rank of the
+page ”Bacterial evolution”? Rank the results by pageRank. What is the rank of the page ”Bacterial
+evolution”? Is it expected? How would you correct for it 4 ?
+
+    R6.4 When ranking with vector model, "Bacterial evolution" rank 5th, when ranking with pageRank it ranks 15th. 
+    No it is not expected because the words in the request almost correspond to the page title
+    To correct first the vector model ranking, we need to use stemming. We can also use embeddings. Like that Bacterial and Bacteria will have the same meaning, and will be 
+    considered the same
+
+Q7.1 Page ranks of DNA and RNA
+
+    R7.1 Page rank of DNA : 0.035884
+         Page rank of RNA : 0.007674
+
+Q7.2 For example, set the source vector as the pages with DNA in the title and re-compute the page rank
+vector.
+
+    R7.2 The new page rank are :
+        Page rank of DNA : 0.064
+        Page rank of RNA : 0.012
+
+        The new page rank of DNA and RNA pages increase. This is normal, because by setting the source vector as the page with
+        DNA, we are setting a higher probability for the random surfer to jump into DNA pages. And since DNA pages also refer
+        to pages relating to RNA, RNA page rank will also benefit from that increase in page rank.
+        To increase the Page rank of DNA, we can also tune the intial page rank vector.
+
+Q7.3 Stemming. List english stemming rules and implement them in the right script
